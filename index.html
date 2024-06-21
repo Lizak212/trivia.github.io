@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .question {
+      visibility: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <label>Select Category:</label>
+  <select id = "category">
+    <option value = "27"> Animals </option>
+    <option value = "25"> Art </option>
+    <option value = "21"> Sports </option>
+  </select>
+
+  <button onclick = "StartGame()" >Start Game</button>
+
+  <div class = "question">
+    <label id = "Q1"></label>
+    <button id = "Q1 True">True</button>
+    <button id = "Q1 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q2"></label>
+    <button id = "Q2 True">True</button>
+    <button id = "Q2 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q3"></label>
+    <button id = "Q3 True">True</button>
+    <button id = "Q3 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q4"></label>
+    <button id = "Q4 True">True</button>
+    <button id = "Q4 False">False</button>
+  </div>
+
+  <div class = "question"> 
+    <label id = "Q5"></label>
+    <button id = "Q5 True">True</button>
+    <button id = "Q5 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q6"></label>
+    <button id = "Q6 True">True</button>
+    <button id = "Q6 False">True</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q7"></label>
+    <button id = "Q7 True">True</button>
+    <button id = "Q7 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q8"></label>
+    <button id = "Q8 True">True</button>
+    <button id = "Q8 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q9"></label>
+    <button id = "Q9 True">True</button>
+    <button id = "Q9 False">False</button>
+  </div>
+
+  <div class = "question">
+    <label id = "Q10"></label>
+    <button id = "Q10 True">True</button>
+    <button id = "Q10 False">False</button>
+  </div>
+    
+  <script>
+    async function StartGame() {
+      var category = document.getElementById("category").value;
+      
+      var url = `https://opentdb.com/api.php?amount=10&category=` + category + `&type=boolean`;
+      var response = await fetch (url);
+      var data = await response.json();
+
+      var questions = data.results;
+
+      questions.forEach((current, index) => {
+        var q = current.question;
+        var a = current.correct_answer;
+        var label = document.getElementById ('Q' + (index + 1));
+        var trueButton = document.getElementById ('Q' + (index + 1) + ' True');
+        var falseButton = document.getElementById ('Q' + (index + 1) + ' False');
+        label.innerHTML = q;
+
+        falseButton.addEventListener("click", () => CheckAnswer(a, "False"));
+
+        trueButton.addEventListener("click", () => CheckAnswer(a, "True"));
+      });
+
+      document.querySelectorAll('.question').forEach((qu) => {
+        qu.style.visibility = 'visible';
+      });
+    }
+
+    function CheckAnswer (answer, guess) {
+      if (answer == guess) {
+        alert (guess + " is correct!");
+        return true;
+      } else {
+        alert (guess + " is incorrect!");
+        return false;
+      }
+    }
+  </script>
+  
+</body>
+
+</html>
